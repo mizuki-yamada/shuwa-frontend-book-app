@@ -1,35 +1,71 @@
 import React, { useState } from "react";
+import styled from "styled-components"
 
 import { Review } from "../types/Review";
+
+const Item = styled.li`
+  border-bottom: 1px solid #d6d6d6;
+  font-size: 1rem;
+  padding: 15px 0;
+`;
+
+const Name = styled.p`
+  margin: 0;
+`;
+
+const Comment = styled.p`
+  margin: 5px 0 0;
+`;
+
+const Like = styled.p`
+  margin: 10px 0 0;
+  text-align: right;
+`;
+
+const LikeButton = styled.a`
+  color: #000;
+  display: inline-block;
+  text-decoration: none;
+  &:hover {
+    color: #f43c3c;
+  }
+`;
 
 function ReviewListItem({ review }: { review: Review }) {
   const [likeCount, setLikeCount] = useState(review.like);
 
   return (
-    <li className="review__list__item">
-      <p className="review__list__item__name">
+    <Item>
+      <Name>
         {review.username}さんの感想・評価
-      </p>
-      <p className="review__list__item__comment">{review.comment}</p>
-      <p className="review__list__item__like">
-        <a
+      </Name>
+      <Comment>{review.comment}</Comment>
+      <Like>
+        <LikeButton
           href="#"
           className="review__list__item__like__button"
           onClick={() => setLikeCount(likeCount + 1)}
         >
           &#x2764;️ {likeCount}件
-        </a>
-      </p>
-    </li>
+        </LikeButton>
+      </Like>
+    </Item>
   );
 }
 
+const List = styled.ul`
+  border-top: 1px solid #d6d6d6;
+  list-style: none;
+  margin-top: 20px;
+  padding: 0;
+`;
+
 export default function ReviewList({ reviews }: { reviews: Review[] }) {
   return (
-    <ul className="review__list">
+    <List>
       {reviews.map((review) => (
         <ReviewListItem key={review.id} review={review} />
       ))}
-    </ul>
+    </List>
   );
 }
