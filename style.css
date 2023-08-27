@@ -75,7 +75,27 @@ body {
 
 /* レビューリスト */
 .review {
-  display: none;
+  max-height: 0;
+  overflow-y: hidden;
+}
+
+.review-enter-active {
+  max-height: 800px;
+  transition: max-height 0.2s ease;
+}
+
+.review-enter-done {
+  max-height: 800px;
+  overflow-y: scroll;
+}
+
+.review-exit {
+  max-height: 800px;
+}
+
+.review-exit-active {
+  max-height: 0;
+  transition: max-height 0.2s ease;
 }
 
 .review__list {
@@ -111,7 +131,7 @@ body {
 }
 
 .review__list__item__like__button:hover {
-  color: #F43C3C;
+  color: #f43c3c;
 }
 
 /* レビュー投稿 */
