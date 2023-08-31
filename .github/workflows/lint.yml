@@ -1,0 +1,34 @@
+# ワークフローの名前
+name: Front-End CI Actions
+
+# このワークフローが実行されるGitアクション
+on: [push,pull_request]
+
+jobs:
+  # ジョブの名前
+  lint-and-test:
+    # 動作させるOS
+    runs-on: ubuntu-latest
+    # 複数Node.jsバージョンのマトリックスで実施
+    strategy:
+      matrix:
+        node-version: [18.x]
+    # ジョブ実行のステップシーケンス
+    steps:
+    # GitHub Actionsが提供するアクション
+    - uses: actions/checkout@v1
+    - name: Use Node.js ${{matrix.node-version}}
+      uses: actions/setup-node@v1
+      with:
+      # マトリックスの変数を使用
+        node-version: ${{matrix.node-version}}
+    # コミュニティが提供するアクション
+    - uses: c-hive/gha-yarn-cache@v1
+    - name: Package Install
+      run: yarn
+    - name: TypeScript Compile
+      run: yarn lint:ts
+    - name: Jest UnitTest
+      run: yarn test
+    - name: ESLint linting
+      run: yarn eslint
